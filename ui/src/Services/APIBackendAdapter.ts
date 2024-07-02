@@ -37,7 +37,7 @@ import type API from './API';
 import type { UUID, Stage, Settings, UserProfile, KGCoreResult, StructureOfType, InstanceFull, InstanceSummary, SuggestionStructure, Neighbor, Scope, UserSummary, IncomingLink, InstanceRawStructure, InstanceSummaryData, InstanceLabelData, InstanceFullData } from '../types';
 import type { AxiosInstance } from 'axios';
 
-const RELATIVE_ROOT_PATH = '/editor/api';
+const RELATIVE_ROOT_PATH = '/api';
 
 declare global {
 	interface Window {

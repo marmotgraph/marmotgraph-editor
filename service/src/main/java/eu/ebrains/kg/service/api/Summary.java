@@ -23,6 +23,7 @@
 
 package eu.ebrains.kg.service.api;
 
+import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.controllers.IdController;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.ResultWithOriginalMap;
@@ -41,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@RequestMapping("/summary")
+@RequestMapping(Constants.ROOT_PATH_OF_API + "/summary")
 @RestController
 // TODO check if this could be moved to another place
 public class Summary {

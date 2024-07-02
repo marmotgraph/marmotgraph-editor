@@ -23,6 +23,7 @@
 
 package eu.ebrains.kg.service.api;
 
+import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.controllers.IdController;
 import eu.ebrains.kg.service.controllers.InstanceController;
 import eu.ebrains.kg.service.models.KGCoreResult;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping(Constants.ROOT_PATH_OF_API)
 // TODO Add proper error handling
 public class Instances {
 

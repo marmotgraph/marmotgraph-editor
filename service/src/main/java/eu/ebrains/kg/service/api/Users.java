@@ -23,6 +23,7 @@
 
 package eu.ebrains.kg.service.api;
 
+import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.controllers.IdController;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.commons.UserSummary;
@@ -39,7 +40,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@RequestMapping("/users")
+@RequestMapping(Constants.ROOT_PATH_OF_API + "/users")
 @RestController
 public class Users {
 

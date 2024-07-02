@@ -23,6 +23,7 @@
 
 package eu.ebrains.kg.service.api;
 
+import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.services.AuthClient;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping("/settings")
+@RequestMapping(Constants.ROOT_PATH_OF_API + "/settings")
 @RestController
 public class Settings {
 

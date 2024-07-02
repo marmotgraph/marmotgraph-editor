@@ -23,6 +23,7 @@
 
 package eu.ebrains.kg.service.api;
 
+import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.controllers.SpaceController;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.type.StructureOfType;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/types")
+@RequestMapping(Constants.ROOT_PATH_OF_API + "/types")
 @RestController
 public class Types {
 

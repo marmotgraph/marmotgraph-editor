@@ -26,14 +26,14 @@ const { createProxyMiddleware } = require('http-proxy-middleware'); //setup prox
 
 module.exports = function(app) {
   app.use(
-    '/editor/api/**',
+    '/api/**',
     createProxyMiddleware({
       target:'http://localhost:8080',
       //target:'https://editor.kg-int.ebrains.eu',
       secure:false,
       changeOrigin: true,
       pathRewrite: function(path) {
-        return path.replace('/editor/api/', '/');
+        return path.replace('/api/', '/');
       }
     })
   );

@@ -23,6 +23,7 @@
 
 package eu.ebrains.kg.service.api;
 
+import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.services.ReleaseClient;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/releases")
+@RequestMapping(Constants.ROOT_PATH_OF_API+"/releases")
 @RestController
 public class Releases {
 
