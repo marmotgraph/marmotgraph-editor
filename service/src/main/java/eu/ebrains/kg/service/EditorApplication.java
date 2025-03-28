@@ -37,7 +37,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @ComponentScan
 @EnableCaching
 @EnableScheduling
-
+@ComponentScan({"org.marmotgraph", "eu.ebrains.kg"})
 public class EditorApplication extends WebSecurityConfigurerAdapter {
 
     public static void main(String[] args) {

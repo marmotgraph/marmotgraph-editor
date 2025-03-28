@@ -23,15 +23,17 @@
 
 package eu.ebrains.kg.service.api;
 
-import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.controllers.SpaceController;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.type.StructureOfType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping(Constants.ROOT_PATH_OF_API + "/types")
+@RequestMapping( "${org.marmotgraph.api.root:}/types")
 @RestController
 public class Types {
 

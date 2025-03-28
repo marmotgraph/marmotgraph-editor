@@ -23,7 +23,6 @@
 
 package eu.ebrains.kg.service.api;
 
-import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.controllers.IdController;
 import eu.ebrains.kg.service.controllers.InstanceController;
 import eu.ebrains.kg.service.models.KGCoreResult;
@@ -37,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(Constants.ROOT_PATH_OF_API)
+@RequestMapping("${org.marmotgraph.api.root:}")
 // TODO Add proper error handling
 public class Instances {
 
@@ -72,7 +71,7 @@ public class Instances {
 
     @PostMapping("/instances")
     public KGCoreResult<InstanceFull> createInstanceWithoutId(@RequestParam("space") String space,
-                                                     @RequestBody Map<String, Object> payload) {
+                                                              @RequestBody Map<String, Object> payload) {
         Map<?, ?> normalizedPayload = idController.fullyQualifyAtId(payload);
         ResultWithOriginalMap<InstanceFull> instanceWithMap = instanceClient.postInstance(space, normalizedPayload);
         InstanceFull instanceFull = instanceController.enrichInstance(instanceWithMap);
@@ -107,10 +106,10 @@ public class Instances {
 
     @GetMapping("/instances/{id}/incomingLinks")
     public KGCoreResult<List<IncomingLink>> getIncomingLinks(@PathVariable("id") String id,
-                                                       @RequestParam("property") String property,
-                                                       @RequestParam("type") String type,
-                                                       @RequestParam("from") int from,
-                                                       @RequestParam("size") int size) {
+                                                             @RequestParam("property") String property,
+                                                             @RequestParam("type") String type,
+                                                             @RequestParam("from") int from,
+                                                             @RequestParam("size") int size) {
         return instanceClient.getIncomingLinks(id, property, type, from, size);
     }
 
@@ -125,7 +124,7 @@ public class Instances {
 
     @PostMapping("/instancesBulk/summary")
     public KGCoreResult<Map<String, InstanceSummary>> getInstancesSummary(@RequestParam(value = "stage", defaultValue = "IN_PROGRESS", required = false) String stage,
-                                    @RequestBody List<String> ids) {
+                                                                          @RequestBody List<String> ids) {
         Map<String, ResultWithOriginalMap<InstanceSummary>> result = instanceClient.getInstances(ids, stage, false, true, false, false, InstanceSummary.class);
         Map<String, InstanceSummary> enrichedInstances = instanceController.enrichInstancesSummary(result);
         return new KGCoreResult<Map<String, InstanceSummary>>().setData(enrichedInstances);
@@ -133,7 +132,7 @@ public class Instances {
 
     @PostMapping("/instancesBulk/label")
     public KGCoreResult<Map<String, InstanceLabel>> getInstancesLabel(@RequestParam(value = "stage", defaultValue = "IN_PROGRESS", required = false) String stage,
-                                  @RequestBody List<String> ids) {
+                                                                      @RequestBody List<String> ids) {
         Map<String, ResultWithOriginalMap<InstanceLabel>> result = instanceClient.getInstances(ids, stage, false, false, false, false, InstanceLabel.class);
         Map<String, InstanceLabel> enrichedInstances = instanceController.enrichInstancesLabel(result);
         return new KGCoreResult<Map<String, InstanceLabel>>().setData(enrichedInstances);
@@ -149,11 +148,11 @@ public class Instances {
                                                             @RequestParam(value = "search", required = false) String search,
                                                             @RequestBody Map<String, Object> payload) {
         KGCoreResult<SuggestionStructure> suggestionStructure = instanceClient.postSuggestions(id, field, sourceType, targetType, start, size, search, payload);
-        if(suggestionStructure!= null && suggestionStructure.getData()!=null){
+        if (suggestionStructure != null && suggestionStructure.getData() != null) {
             suggestionStructure.getData().getSuggestions().getData().forEach(s -> {
-                if(s!=null && s.getType()!=null){
+                if (s != null && s.getType() != null) {
                     SimpleTypeWithSpaces fullType = suggestionStructure.getData().getTypes().get(s.getType().getName());
-                    if(fullType!=null){
+                    if (fullType != null) {
                         s.setType(fullType);
                     }
                 }
@@ -171,7 +170,7 @@ public class Instances {
     @GetMapping("/instances/{id}/neighbors")
     public KGCoreResult<Neighbor> getInstanceNeighbors(@PathVariable("id") String id) {
         KGCoreResult<Neighbor> neighbor = instanceClient.getNeighbors(id);
-        if(neighbor!=null && neighbor.getData()!=null) {
+        if (neighbor != null && neighbor.getData() != null) {
             instanceController.enrichNeighborRecursivelyWithTypeInformation(neighbor.getData());
         }
         return neighbor;

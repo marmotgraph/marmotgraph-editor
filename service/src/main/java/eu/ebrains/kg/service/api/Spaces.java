@@ -23,16 +23,14 @@
 
 package eu.ebrains.kg.service.api;
 
-import eu.ebrains.kg.service.constants.Constants;
 import eu.ebrains.kg.service.controllers.SpaceController;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.type.StructureOfType;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(Constants.ROOT_PATH_OF_API + "/spaces")
+@RequestMapping("${org.marmotgraph.api.root:}/spaces")
 @RestController
 public class Spaces {
 

@@ -24,6 +24,7 @@
 package eu.ebrains.kg.service.controllers;
 
 import eu.ebrains.kg.service.models.HasId;
+import org.marmotgraph.commons.controller.CoreController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -38,9 +39,13 @@ public class IdController {
 
     private final String kgCoreInstancesPrefix;
 
-    public IdController(@Value("${kgcore.instancesPrefix}") String kgCoreInstancesPrefix) {
-        if (kgCoreInstancesPrefix != null) {
-            this.kgCoreInstancesPrefix = kgCoreInstancesPrefix.endsWith("/") ? kgCoreInstancesPrefix : kgCoreInstancesPrefix + "/";
+    public IdController(CoreController coreController) {
+        //TODO check if this should be transferred to marmotgraph-commons
+        Map<String, Object> tenantInformation = coreController.getTenantInformation();
+        Object idNamespace = tenantInformation.get("idNamespace");
+        String idPrefix = idNamespace != null ? idNamespace.toString() : null;
+        if (idPrefix != null) {
+            this.kgCoreInstancesPrefix = idPrefix.endsWith("/") ? idPrefix : idPrefix + "/";
         } else {
             this.kgCoreInstancesPrefix = null;
         }
