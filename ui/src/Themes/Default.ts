@@ -31,7 +31,7 @@ const theme: Theme = {
       colorEnd: '#4895a4',
       angle: '165deg'
     },
-    image: `${window.rootPath}/assets/background-default.jpg`,
+    image: '/api/theme/background?darkMode=true',
     size: 'cover'
   },
   button: {

@@ -8,3 +8,5 @@ test-report.xml
 .cache
 .env
 build/
+dist/
+*.iml

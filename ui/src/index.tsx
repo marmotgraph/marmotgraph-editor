@@ -61,7 +61,7 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 });
 axiosInstance.interceptors.response.use(undefined, (error) => {
   if (error.response && error.response.status === 401 && !error.config._isRetry) {
-    authAdapter.unauthorizedRequestResponseHandlerProvider.unauthorizedRequestResponseHandler && authAdapter.unauthorizedRequestResponseHandlerProvider.unauthorizedRequestResponseHandler();
+    if(authAdapter.unauthorizedRequestResponseHandlerProvider.unauthorizedRequestResponseHandler) {authAdapter.unauthorizedRequestResponseHandlerProvider.unauthorizedRequestResponseHandler();}
     return axios.request(error.config);
   } else {
     return Promise.reject(error);

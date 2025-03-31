@@ -76,6 +76,9 @@ interface HistorySettings {
 }
 export class AppStore{
   commit?: string;
+  appName?: string;
+  contactEmail?: string;
+  copyright?: string;
   globalError?: boolean;
   currentSpace?: Space;
   savePercentage?: number;
@@ -147,6 +150,18 @@ export class AppStore{
       };
     }
     this.historySettings = savedHistorySettings;
+  }
+
+  setAppName(appName: string) {
+    this.appName = appName;
+  }
+
+  setContactEmail(contactEmail: string){
+    this.contactEmail = contactEmail;
+  }
+
+  setCopyright(copyright: string){
+    this.copyright = copyright;
   }
 
   setCommit(commit: string) {

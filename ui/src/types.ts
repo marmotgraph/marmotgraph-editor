@@ -35,8 +35,8 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import type { BrowserOptions } from '@sentry/browser';
 import type { LinkObject, NodeObject } from 'force-graph';
-import type { KeycloakConfig } from 'keycloak-js';
 import type { PiwikOptions } from 'react-piwik';
+import {KeycloakConfig} from "keycloak-js";
 
 export type UUID = string;
 
@@ -57,9 +57,18 @@ export enum ReleaseStatus {
 }
 
 export type Stage = 'IN_PROGRESS' | 'RELEASED'; //TODO: change this to Enum
-export interface Settings {
+
+export interface Tenant {
+  title: string;
+  contactEmail: string;
+  copyright: string;
+  idNamespace: string;
+}
+
+export interface Config {
   commit: string;
   keycloak: KeycloakConfig;
+  tenant?: Tenant;
   matomo?: PiwikOptions;
   sentry?: BrowserOptions;
 }

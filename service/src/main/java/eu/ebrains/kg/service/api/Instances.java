@@ -23,13 +23,13 @@
 
 package eu.ebrains.kg.service.api;
 
-import eu.ebrains.kg.service.controllers.IdController;
 import eu.ebrains.kg.service.controllers.InstanceController;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.ResultWithOriginalMap;
 import eu.ebrains.kg.service.models.commons.UserSummary;
 import eu.ebrains.kg.service.models.instance.*;
 import eu.ebrains.kg.service.services.InstanceClient;
+import org.marmotgraph.commons.controller.IdController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

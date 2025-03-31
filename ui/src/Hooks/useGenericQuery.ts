@@ -68,7 +68,7 @@ function useGenericQuery<T>(fetchT: () => Promise<T>, skip?: boolean): GenericQu
   useEffect(() => {
     if (!initializedRef.current || initializedRef.current !== fetchT) {
       initializedRef.current = fetchT;
-      !skip && getData();
+      if(!skip) { getData(); }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skip, fetchT]);

@@ -47,7 +47,7 @@ export interface Option {
 }
 
 class LinkStore extends FieldStore {
-  value: Value | null | undefined;
+  declare value: Value | null | undefined;
   initialValue?: Value | null;
   options: Suggestion[] = [];
   optionsResult: Suggestion[] = [];

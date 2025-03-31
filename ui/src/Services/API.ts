@@ -32,7 +32,7 @@
  *   limitations under the License.
  *
  */
-import type { Settings, UserProfile, KGCoreResult, UUID, Stage, StructureOfType, InstanceFull, InstanceSummary, SuggestionStructure, Neighbor, Scope, UserSummary, IncomingLink, InstanceRawStructure, InstanceLabelData, InstanceSummaryData, InstanceFullData } from '../types';
+import type { Config, UserProfile, KGCoreResult, UUID, Stage, StructureOfType, InstanceFull, InstanceSummary, SuggestionStructure, Neighbor, Scope, UserSummary, IncomingLink, InstanceRawStructure, InstanceLabelData, InstanceSummaryData, InstanceFullData } from '../types';
 
 interface APIErrorResponse {
   status: number;
@@ -47,7 +47,7 @@ export interface APIError {
 
 interface API {
 
-  getSettings(): Promise<Settings>;
+  getConfig(): Promise<Config>;
 
   getUserProfile(): Promise<UserProfile>;
 

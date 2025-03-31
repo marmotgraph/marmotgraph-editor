@@ -23,6 +23,7 @@
 
 import React from 'react';
 import showdown from 'showdown';
+// @ts-ignore
 import xssFilter from 'showdown-xss-filter';
 
 const converter = new showdown.Converter({extensions: [xssFilter]});

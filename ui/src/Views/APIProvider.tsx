@@ -36,14 +36,15 @@
 import React from 'react';
 import APIContext from '../Contexts/APIContext';
 import type API from '../Services/API';
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX } from 'react';
+
 
 interface APIProviderProps {
   api: API;
   children?: ReactNode;
 }
 
-const APIProvider = ({ api, children }: APIProviderProps): ReactNode => (
+const APIProvider = ({ api, children }: APIProviderProps): JSX.Element => (
   <APIContext.Provider value={api} >
     {children}
   </APIContext.Provider>

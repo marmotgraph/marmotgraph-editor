@@ -27,8 +27,9 @@ import AuthContext from '../Contexts/AuthContext';
 import useKeycloak from '../Hooks/useKeycloak';
 import type { AuthProviderProps } from '../Services/AuthProvider';
 import type KeycloakAuthAdapter from '../Services/KeycloakAuthAdapter';
+import type {JSX} from 'react';
 
-const KeycloakAuthProvider = ({ adapter, loginRequired, children }: AuthProviderProps) => {
+const KeycloakAuthProvider = ({ adapter, loginRequired, children }: AuthProviderProps): JSX.Element => {
   const auth = useKeycloak(adapter as unknown as KeycloakAuthAdapter, loginRequired);
   return (
     <AuthContext.Provider value={auth} >

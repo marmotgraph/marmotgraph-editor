@@ -77,14 +77,15 @@ const Types = observer(({ children }: TypesProps) => {
       return (
         <ErrorPanel>
           <p>space &quot;{space}&quot; does not currently have any types in its specifications.<br />Your are not entitled to add types to space &quot;{space}&quot;.</p>
-          <p>Please contact our team by email at : <a href={'mailto:kg@ebrains.eu'}>kg@ebrains.eu</a></p>
+          <p>Please contact our team by email at : <a
+              href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
         </ErrorPanel>
       );
     }
     return (
-      <>
-        {children}
-      </>
+        <>
+          {children}
+        </>
     );
   }
 

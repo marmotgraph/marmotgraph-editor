@@ -29,7 +29,7 @@ import useStores from '../../Hooks/useStores';
 import Sentry from '../../Services/Sentry';
 
 const ContactTheSupport = () => {
-  const { userProfileStore } = useStores();
+  const { appStore, userProfileStore } = useStores();
 
   const handleErrorReport = () => {
     Sentry.showReportDialog({
@@ -43,9 +43,10 @@ const ContactTheSupport = () => {
   return(
     <div>
       <h1>Contact us</h1>
-      <p>Should you encounter any problem with this application, please contact our team by email at : <a href={'mailto:kg@ebrains.eu'}>kg@ebrains.eu</a></p>
-      <Button variant={'warning'} onClick={handleErrorReport}>
-        <FontAwesomeIcon icon={faEnvelope} /> &nbsp; Send an error report
+      <p>Should you encounter any problem with this application, please contact our team by email at : <a
+          href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
+        <Button variant={'warning'} onClick={handleErrorReport}>
+            <FontAwesomeIcon icon={faEnvelope} /> &nbsp; Send an error report
       </Button>
     </div>
   );

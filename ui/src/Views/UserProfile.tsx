@@ -52,7 +52,7 @@ const UserProfile = observer(({ children }: UserProfileProps) => {
 
   const { logout } = useAuth();
 
-  const { userProfileStore } = useStores();
+  const { appStore, userProfileStore } = useStores();
 
   useEffect(() => {
     if (userProfile) {
@@ -86,7 +86,8 @@ const UserProfile = observer(({ children }: UserProfileProps) => {
         <ErrorPanel>
           <h1>Welcome</h1>
           <p>You are currently not granted permission to acccess the application.</p>
-          <p>Please contact our team by email at : <a href={'mailto:kg@ebrains.eu'}>kg@ebrains.eu</a></p>
+          <p>Please contact our team by email at : <a
+              href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
           <Button onClick={logout}>Logout</Button>
         </ErrorPanel>
       );

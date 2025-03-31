@@ -31,7 +31,7 @@ const theme: Theme = {
       colorEnd: 'a8caba',
       angle: '165deg'
     },
-    image: `${window.rootPath}/assets/background-bright.png`,
+    image: 'api/favicon/background?darkMode=false',
     position: '50% 50%'
   },
   backgroundColor: '#f4fbf7',

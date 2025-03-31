@@ -101,7 +101,8 @@ const Space = observer(({ space, skipHistory, children }: SpaceProps) => {
       <ErrorPanel>
         <h1>Welcome <span title={userProfileStore.firstName}>{userProfileStore.firstName}</span></h1>
         <p>You are currently not granted permission to acccess any spaces.</p>
-        <p>Please contact our team by email at : <a href={'mailto:kg@ebrains.eu'}>kg@ebrains.eu</a></p>
+        <p>Please contact our team by email at : <a
+            href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
         <Button onClick={logout}>Logout</Button>
       </ErrorPanel>
     );
@@ -131,15 +132,16 @@ const Space = observer(({ space, skipHistory, children }: SpaceProps) => {
     return (
       <ErrorPanel>
         <p>You are currently not granted permission to acccess the space  &quot;<i>{space}&quot;</i>.</p>
-        <p>Please contact our team by email at : <a href={'mailto:kg@ebrains.eu'}>kg@ebrains.eu</a></p>
+        <p>Please contact our team by email at : <a
+            href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
       </ErrorPanel>
     );
   }
 
   return (
-    <>
-      {children}
-    </>
+      <>
+        {children}
+      </>
   );
 });
 Space.displayName = 'Space';

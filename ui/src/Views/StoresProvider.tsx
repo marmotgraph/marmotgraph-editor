@@ -36,14 +36,14 @@
 import React from 'react';
 import StoresContext from '../Contexts/StoresContext';
 import type RootStore from '../Stores/RootStore';
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX } from 'react';
 
 interface StoresProviderProps {
   stores: RootStore;
   children?: ReactNode;
 }
 
-const StoresProvider = ({ stores, children }: StoresProviderProps): ReactNode => (
+const StoresProvider = ({ stores, children }: StoresProviderProps): JSX.Element => (
   <StoresContext.Provider value={stores} >
     {children}
   </StoresContext.Provider>

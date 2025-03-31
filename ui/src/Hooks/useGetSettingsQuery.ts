@@ -21,21 +21,21 @@
  *
  */
 
-import { useCallback } from 'react';
+import {useCallback, useMemo} from 'react';
 import useAPI from './useAPI';
 import useGenericQuery from './useGenericQuery';
 import type { GenericQuery } from './useGenericQuery';
-import type { Settings } from '../../src/types';
+import {Config} from "../types";
 
-export type GetSettingsQuery = GenericQuery<Settings>;
+export type GetSettingsQuery = GenericQuery<Config>;
 
 const useGetSettingsQuery = (): GetSettingsQuery => {
 
   const API = useAPI();
 
-  const fetch = useCallback(() => API.getSettings(), [API]);
+  const fetch = useMemo(() => () => API.getConfig(), [API]);
 
-  return useGenericQuery<Settings>(fetch);
+  return useGenericQuery<Config>(fetch);
 };
 
 export default useGetSettingsQuery;

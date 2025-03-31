@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ESNext",
     "lib": [
       "esnext",
-      "DOM"
+      "dom",
+      "dom.iterable"
     ],
     "jsx": "react-jsx",
     "module": "esnext",
@@ -20,13 +21,11 @@
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
-    "paths": {
-      "*": [
-        "./src/customTypings/*"
-      ]
-    },
+    "types": ["vite/client", "node"],
     "plugins": [
-      { "name": "typescript-tslint-plugin" }
+      {
+        "name": "typescript-tslint-plugin"
+      }
     ],
     "typeRoots": [
       "src/customTypings",

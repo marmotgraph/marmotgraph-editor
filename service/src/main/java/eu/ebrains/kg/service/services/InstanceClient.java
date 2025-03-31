@@ -25,7 +25,6 @@ package eu.ebrains.kg.service.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.ebrains.kg.service.constants.EditorConstants;
-import eu.ebrains.kg.service.controllers.IdController;
 import eu.ebrains.kg.service.models.HasError;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.ResultWithOriginalMap;
@@ -33,6 +32,7 @@ import eu.ebrains.kg.service.models.commons.Permissions;
 import eu.ebrains.kg.service.models.commons.UserSummary;
 import eu.ebrains.kg.service.models.instance.*;
 import org.apache.commons.lang3.StringUtils;
+import org.marmotgraph.commons.controller.IdController;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.reactive.function.BodyInserters;

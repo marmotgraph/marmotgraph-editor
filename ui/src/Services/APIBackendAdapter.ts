@@ -34,7 +34,7 @@
  *
  */
 import type API from './API';
-import type { UUID, Stage, Settings, UserProfile, KGCoreResult, StructureOfType, InstanceFull, InstanceSummary, SuggestionStructure, Neighbor, Scope, UserSummary, IncomingLink, InstanceRawStructure, InstanceSummaryData, InstanceLabelData, InstanceFullData } from '../types';
+import type { UUID, Stage, Config, UserProfile, KGCoreResult, StructureOfType, InstanceFull, InstanceSummary, SuggestionStructure, Neighbor, Scope, UserSummary, IncomingLink, InstanceRawStructure, InstanceSummaryData, InstanceLabelData, InstanceFullData } from '../types';
 import type { AxiosInstance } from 'axios';
 
 const RELATIVE_ROOT_PATH = '/api';
@@ -53,7 +53,7 @@ const getStage = (stage?: Stage) => {
 };
 
 const endpoints = {
-  settings: () => `${RELATIVE_ROOT_PATH}/settings`,
+  config: () => `${RELATIVE_ROOT_PATH}/config`,
   user: () => `${RELATIVE_ROOT_PATH}/users/me`,
   usersForReview: (search: string) => `${RELATIVE_ROOT_PATH}/users/search?search=${search}`,
   invitedUsers: (instanceId: UUID) => `${RELATIVE_ROOT_PATH}/instances/${instanceId}/invitedUsers`,
@@ -103,9 +103,9 @@ class APIBackendAdapter implements API {
     this._axios = axios;
   }
 
-  async getSettings(): Promise<Settings> {
-    const { data } = await this._axios.get(endpoints.settings());
-    return data?.data as Settings;
+  async getConfig(): Promise<Config> {
+    const { data } = await this._axios.get(endpoints.config());
+    return data;
   }
 
   async getUserProfile(): Promise<UserProfile> {

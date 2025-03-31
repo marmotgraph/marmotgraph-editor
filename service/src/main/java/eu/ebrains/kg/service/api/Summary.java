@@ -23,7 +23,6 @@
 
 package eu.ebrains.kg.service.api;
 
-import eu.ebrains.kg.service.controllers.IdController;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.ResultWithOriginalMap;
 import eu.ebrains.kg.service.models.instance.InstanceSummary;
@@ -33,6 +32,7 @@ import eu.ebrains.kg.service.models.type.StructureOfType;
 import eu.ebrains.kg.service.services.InstanceClient;
 import eu.ebrains.kg.service.services.SpaceClient;
 import org.apache.commons.lang3.SerializationUtils;
+import org.marmotgraph.commons.controller.IdController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

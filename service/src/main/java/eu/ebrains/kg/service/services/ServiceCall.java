@@ -24,6 +24,7 @@
 package eu.ebrains.kg.service.services;
 
 
+import org.marmotgraph.commons.CommonConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,26 +33,21 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class ServiceCall {
 
-    private final WebClient userWithServiceAccountWebClient;
-    private final WebClient userOnlyWebClient;
+    private final WebClient dualAuthWebClient;
+    private final WebClient singleAuthWebClient;
+    private final CommonConfig commonConfig;
 
-    private final String kgCoreEndpoint;
-
-    private final String apiVersion;
-
-
-    public ServiceCall(@Qualifier("asUserWithServiceAccount") WebClient userWithServiceAccountWebClient, @Qualifier("asUserOnly") WebClient userOnlyWebClient, @Value("${kgcore.endpoint}") String kgCoreEndpoint, @Value("${kgcore.apiVersion}") String apiVersion) {
-        this.userWithServiceAccountWebClient = userWithServiceAccountWebClient;
-        this.userOnlyWebClient = userOnlyWebClient;
-        this.kgCoreEndpoint = kgCoreEndpoint;
-        this.apiVersion = apiVersion;
+    public ServiceCall(@Qualifier("dualAuth") WebClient dualAuthWebClient, @Qualifier("singleAuth") WebClient singleAuthWebClient, CommonConfig commonConfig) {
+        this.dualAuthWebClient = dualAuthWebClient;
+        this.singleAuthWebClient = singleAuthWebClient;
+        this.commonConfig = commonConfig;
     }
 
     public String url(String relativeUri){
-        return String.format("%s/%s/%s", kgCoreEndpoint, apiVersion, relativeUri);
+        return String.format("%s://%s/%s/%s", commonConfig.getHostName().startsWith("localhost") ? "http" : "https", commonConfig.getHostName(), commonConfig.getApiVersion(), relativeUri);
     }
 
-    public WebClient client(boolean useServiceAccount) {
-        return useServiceAccount?userWithServiceAccountWebClient:userOnlyWebClient;
+    public WebClient client(boolean dualAuth) {
+        return dualAuth ? dualAuthWebClient : singleAuthWebClient;
     }
 }

@@ -215,7 +215,7 @@ const UserProfileTab = observer(
     };
 
     const handlePopOverClose = (e: Event) => {
-      e && e.stopPropagation();
+      if(e) {e.stopPropagation();}
       setShowPopOver(false);
     };
 

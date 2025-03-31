@@ -38,19 +38,19 @@ import useAuth from '../Hooks/useAuth';
 import DefaultMockAuthProvider from './DefaultMockAuthProvider';
 import type AuthAdapter from '../Services/AuthAdapter';
 import type { AuthProviderProps } from '../Services/AuthProvider';
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX } from 'react';
 
 /* For debugging purpose only, when running the ui app locally but connecting to
  * backend prod (where keycloak is not allowing localhost),
  * if the authentication is not required, you can bypass the keycloak authentication
- * by setting the env variable REACT_APP_BYPASSS_AUTH to true
+ * by setting the env variable VITE_APP_BYPASS_AUTH to true
 */
 
 interface AuthSetupProps {
   adapter: AuthAdapter;
   children?: ReactNode;
 }
-const AuthSetup = ({ adapter, children }: AuthSetupProps) => {
+const AuthSetup = ({ adapter, children }: AuthSetupProps): JSX.Element => {
 
   const { isAuthenticated, logout } = useAuth();
 
@@ -63,7 +63,7 @@ const AuthSetup = ({ adapter, children }: AuthSetupProps) => {
       };
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [adapter, isAuthenticated, logout]);
 
   return (
     <>
@@ -74,15 +74,14 @@ const AuthSetup = ({ adapter, children }: AuthSetupProps) => {
 
 // loginRequired allow to overrule the onLoad option of the keycloak adapter when the authentidation should differ depenging on the route
 const AuthProvider = ({ adapter, loginRequired, children }:AuthProviderProps) => {
-  const isLoginRequired = loginRequired !== undefined ? loginRequired : adapter.initOptions?.onLoad === 'login-required'; // !BE CAREFULL: when loginRequired is false return also false
-  const canBypassAuth = process.env.REACT_APP_BYPASSS_AUTH === 'true' && window.location.host.startsWith('localhost') && !isLoginRequired;
+  const canBypassAuth = import.meta.env.VITE_APP_BYPASS_AUTH === 'true' && window.location.host.startsWith('localhost');
   if (canBypassAuth) {
     console.info('%cAuth: Authentication is disabled for local development', 'color: #f88900;');
   }
   const Provider = canBypassAuth?DefaultMockAuthProvider:adapter.authProvider;
 
   return (
-    <Provider adapter={adapter} loginRequired={loginRequired} >
+    <Provider adapter={adapter} loginRequired={loginRequired || false} >
       <AuthSetup adapter={adapter}>
         {children}
       </AuthSetup>

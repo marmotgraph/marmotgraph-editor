@@ -24,21 +24,19 @@
 package eu.ebrains.kg.service.controllers;
 
 import eu.ebrains.kg.service.helpers.Helpers;
-import eu.ebrains.kg.service.models.HasId;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.ResultWithOriginalMap;
-import eu.ebrains.kg.service.models.commons.UserSummary;
 import eu.ebrains.kg.service.models.instance.*;
 import eu.ebrains.kg.service.models.type.SimpleType;
 import eu.ebrains.kg.service.models.type.StructureOfField;
 import eu.ebrains.kg.service.models.type.StructureOfIncomingLink;
 import eu.ebrains.kg.service.models.type.StructureOfType;
 import eu.ebrains.kg.service.services.ReleaseClient;
-import eu.ebrains.kg.service.services.UserClient;
 import eu.ebrains.kg.service.services.SpaceClient;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.marmotgraph.commons.controller.IdController;
+import org.marmotgraph.commons.models.HasId;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -49,17 +47,15 @@ import java.util.stream.Stream;
 @Component
 public class InstanceController {
 
-    private final String kgInferenceUser;
 
     private final SpaceClient spaceClient;
     private final ReleaseClient releaseClient;
     private final IdController idController;
 
-    public InstanceController(SpaceClient spaceClient, ReleaseClient releaseClient, IdController idController, @Value("${kg.inferenceUser}") String kgInferenceUser) {
+    public InstanceController(SpaceClient spaceClient, ReleaseClient releaseClient, IdController idController) {
         this.spaceClient = spaceClient;
         this.releaseClient = releaseClient;
         this.idController = idController;
-        this.kgInferenceUser = kgInferenceUser;
     }
 
     public InstanceFull enrichInstance(ResultWithOriginalMap<InstanceFull> instanceWithMap) {
@@ -70,7 +66,7 @@ public class InstanceController {
             enrichInstanceWithPossibleIncomingLinks(instance, typesByName);
             enrichTypesAndFields(instance, instanceWithMap.getOriginalMap(), typesByName);
             Helpers.enrichFieldsTargetTypes(getTargetTypes(instance, typesByName), instance.getFields());
-            enrichAlternativesAndInference(instance);
+            enrichAlternatives(instance);
             return instance;
         }
         return null;
@@ -87,7 +83,7 @@ public class InstanceController {
                 enrichInstanceWithPossibleIncomingLinks(instance, typesByName);
                 enrichTypesAndFields(instance, instanceWithResult.getOriginalMap(), typesByName);
                 if (stage.equals("IN_PROGRESS")) {
-                    enrichAlternativesAndInference(instance);
+                    enrichAlternatives(instance);
                 }
             }
         });
@@ -523,21 +519,10 @@ public class InstanceController {
         }
     }
 
-    private boolean containsInferenceUser(List<UserSummary> users) {
-        List<UserSummary> list = users.stream().filter(u -> u.getUsername().equals(kgInferenceUser)).collect(Collectors.toList());
-        return !CollectionUtils.isEmpty(list);
-    }
-
-    private void enrichInference(StructureOfField field, Alternative alternative) {
-        if (field != null && alternative.getSelected() && containsInferenceUser(alternative.getUsers())) {
-            field.setInferred(true);
-        }
-    }
-
     /**
      * Normalize users of alternatives and add pictures
      */
-    private void enrichAlternativesAndInference(InstanceFull instance) {
+    private void enrichAlternatives(InstanceFull instance) {
         if (instance.getAlternatives() != null) {
             instance.getAlternatives().entrySet().forEach(e -> {
                 String fieldName = e.getKey();
@@ -547,7 +532,6 @@ public class InstanceController {
                         u.setId(idController.simplifyFullyQualifiedId(u.getId()).toString());
                     });
                     idController.simplifyIdIfObjectIsAMap(alternative.getValue());
-                    enrichInference(field, alternative);
                 });
             });
         }

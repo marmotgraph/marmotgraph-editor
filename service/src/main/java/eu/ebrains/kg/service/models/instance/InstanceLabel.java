@@ -28,11 +28,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.ebrains.kg.service.constants.EditorConstants;
 import eu.ebrains.kg.service.models.Error;
 import eu.ebrains.kg.service.models.HasError;
-import eu.ebrains.kg.service.models.HasId;
 import eu.ebrains.kg.service.models.type.SimpleType;
+import org.marmotgraph.commons.models.HasId;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class InstanceLabel implements HasId, HasError {
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

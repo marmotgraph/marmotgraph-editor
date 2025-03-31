@@ -35,12 +35,12 @@
 import type { AuthProviderProps } from './AuthProvider';
 import type TokenProvider from './TokenProvider';
 import type UnauthorizedRequestResponseHandlerProvider from './UnauthorizedRequestResponseHandlerProvider';
-import type { ReactNode } from 'react';
+import type {JSX} from 'react';
 
 interface AuthAdapter {
     get tokenProvider(): TokenProvider|undefined;
     get unauthorizedRequestResponseHandlerProvider(): UnauthorizedRequestResponseHandlerProvider|undefined;
-    get authProvider(): (props: AuthProviderProps) => ReactNode;
+    get authProvider(): (props: AuthProviderProps) => JSX.Element;
     get initOptions(): Record<string, unknown> | undefined;
     setConfig(config: Record<string, unknown> | undefined): void;
 }

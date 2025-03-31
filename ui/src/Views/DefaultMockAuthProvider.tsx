@@ -24,6 +24,7 @@ import React from 'react';
 import AuthContext from '../Contexts/AuthContext';
 import type Auth from '../Services/Auth';
 import type { AuthProviderProps } from '../Services/AuthProvider';
+import type { JSX } from 'react';
 
 const mockAuth: Auth = {
   tokenProvider: undefined,
@@ -43,7 +44,7 @@ const mockAuth: Auth = {
   logout: async () => Promise.resolve(undefined)
 };
 
-const DefaultMockAuthProvider = ({ children }: AuthProviderProps) => (
+const DefaultMockAuthProvider = ({ children }: AuthProviderProps): JSX.Element => (
   <AuthContext.Provider value={mockAuth} >
     {children}
   </AuthContext.Provider>
