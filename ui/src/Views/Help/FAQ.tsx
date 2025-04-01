@@ -22,16 +22,19 @@
  */
 
 import React from 'react';
-import useStores from "../../Hooks/useStores";
+import useStores from '../../Hooks/useStores';
 
-const { appStore } = useStores();
-const FAQ = () => (
-  <div>
-    <h1>Frequently asked questions</h1>
-    <p>This section needs you.</p>
-    <p>Do you have a question or a suggestion for a useful information to mention about a feature of this application? Please contact us by email at : <a
-        href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
-  </div>
-);
+const FAQ = () => {
+  const {appStore} = useStores();
+  return (
+    <div>
+      <h1>Frequently asked questions</h1>
+      <p>This section needs you.</p>
+      <p>Do you have a question or a suggestion for a useful information to mention about a feature of this
+        application? Please contact us by email at: <a href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a>
+      </p>
+    </div>
+  );
+};
 
 export default FAQ;

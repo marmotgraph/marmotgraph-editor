@@ -21,23 +21,23 @@
  *
  */
 
-import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import {observer} from 'mobx-react-lite';
+import React, {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
-import { useLocation, useNavigate, matchPath } from 'react-router-dom';
+import {useLocation, useNavigate, matchPath} from 'react-router-dom';
 
 import ErrorPanel from '../Components/ErrorPanel';
 import GridSelector from '../Components/GridSelector';
 import Modal from '../Components/Modal';
 import useAuth from '../Hooks/useAuth';
 import useStores from '../Hooks/useStores';
-import type { Space as SpaceType } from '../types';
-import type { ReactNode } from 'react';
+import type {Space as SpaceType} from '../types';
+import type {ReactNode} from 'react';
 
 
-const hasSpace = (spaces: SpaceType[], name?: string|null) => !!name && spaces.find(s => s.id === name);
+const hasSpace = (spaces: SpaceType[], name?: string | null) => !!name && spaces.find(s => s.id === name);
 
-const getSpace = (spaces: SpaceType[], name?: string|null) => {
+const getSpace = (spaces: SpaceType[], name?: string | null) => {
   if (name) {
     if (hasSpace(spaces, name)) {
       return name;
@@ -51,30 +51,30 @@ const getSpace = (spaces: SpaceType[], name?: string|null) => {
   return null;
 };
 
-const SpaceItem = ({ item: space }: { item: SpaceType }) => <>{space.name??space.id}</>;
+const SpaceItem = ({item: space}: { item: SpaceType }) => <>{space.name ?? space.id}</>;
 
 interface SpaceProps {
-  space?: string|null;
+  space?: string | null;
   skipHistory?: boolean;
   children?: ReactNode;
 }
 
-const Space = observer(({ space, skipHistory, children }: SpaceProps) => {
+const Space = observer(({space, skipHistory, children}: SpaceProps) => {
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { logout } = useAuth();
+  const {logout} = useAuth();
 
   const [isInitialized, setInitialized] = useState(false);
 
-  const { appStore, userProfileStore, viewStore } = useStores();
+  const {appStore, userProfileStore, viewStore} = useStores();
 
   const handleSpaceSelection = (space: SpaceType) => appStore.switchSpace(location, navigate, space.id);
 
   useEffect(() => {
     const selectedSpace = getSpace(userProfileStore.spaces as SpaceType[], space);
-    if(selectedSpace) {
+    if (selectedSpace) {
       appStore.setSpace(selectedSpace);
     }
     if (skipHistory) {
@@ -83,7 +83,7 @@ const Space = observer(({ space, skipHistory, children }: SpaceProps) => {
     } else {
       if (!viewStore.views.size) {
         const path = viewStore.restoreViews();
-        const noRoute = !!matchPath({path:'/'}, location.pathname);
+        const noRoute = !!matchPath({path: '/'}, location.pathname);
         if (noRoute && path) {
           navigate(path);
         } else {
@@ -102,7 +102,7 @@ const Space = observer(({ space, skipHistory, children }: SpaceProps) => {
         <h1>Welcome <span title={userProfileStore.firstName}>{userProfileStore.firstName}</span></h1>
         <p>You are currently not granted permission to acccess any spaces.</p>
         <p>Please contact our team by email at : <a
-            href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
+          href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
         <Button onClick={logout}>Logout</Button>
       </ErrorPanel>
     );
@@ -121,10 +121,10 @@ const Space = observer(({ space, skipHistory, children }: SpaceProps) => {
       const handleSpaceFilter = (list: SpaceType[], term: string) => list.filter(space => space.id.toLowerCase().includes(term));
 
       return (
-        <Modal show={true} >
-          <Modal.Header title={`Welcome ${userProfileStore.firstName}, please select a space:`} closeButton={false} />
+        <Modal show={true}>
+          <Modal.Header title={`Welcome ${userProfileStore.firstName}, please select a space:`} closeButton={false}/>
           <Modal.Body>
-            <Component list={list} itemComponent={SpaceItem} getKey={space => space.id} onSelect={handleSpaceSelection} onFilter={handleSpaceFilter} filterPlaceholder="Filter spaces" />
+            <Component list={list} itemComponent={SpaceItem} getKey={space => space.id} onSelect={handleSpaceSelection} onFilter={handleSpaceFilter} filterPlaceholder="Filter spaces"/>
           </Modal.Body>
         </Modal>
       );
@@ -133,15 +133,15 @@ const Space = observer(({ space, skipHistory, children }: SpaceProps) => {
       <ErrorPanel>
         <p>You are currently not granted permission to acccess the space  &quot;<i>{space}&quot;</i>.</p>
         <p>Please contact our team by email at : <a
-            href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
+          href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
       </ErrorPanel>
     );
   }
 
   return (
-      <>
-        {children}
-      </>
+    <>
+      {children}
+    </>
   );
 });
 Space.displayName = 'Space';

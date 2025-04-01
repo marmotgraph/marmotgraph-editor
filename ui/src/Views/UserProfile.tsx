@@ -22,9 +22,9 @@
  */
 
 import {faRedoAlt} from '@fortawesome/free-solid-svg-icons/faRedoAlt';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {observer} from 'mobx-react-lite';
+import React, {useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 
 import ErrorPanel from '../Components/ErrorPanel';
@@ -32,13 +32,13 @@ import SpinnerPanel from '../Components/SpinnerPanel';
 import useAuth from '../Hooks/useAuth';
 import useGetUserProfileQuery from '../Hooks/useGetUserProfileQuery';
 import useStores from '../Hooks/useStores';
-import type { ReactNode } from 'react';
+import type {ReactNode} from 'react';
 
 interface UserProfileProps {
   children?: ReactNode;
 }
 
-const UserProfile = observer(({ children }: UserProfileProps) => {
+const UserProfile = observer(({children}: UserProfileProps) => {
 
   const {
     data: userProfile,
@@ -50,24 +50,24 @@ const UserProfile = observer(({ children }: UserProfileProps) => {
     refetch,
   } = useGetUserProfileQuery();
 
-  const { logout } = useAuth();
+  const {logout} = useAuth();
 
-  const { appStore, userProfileStore } = useStores();
+  const {appStore, userProfileStore} = useStores();
 
   useEffect(() => {
     if (userProfile) {
       userProfileStore.setUserProfile(userProfile);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile]);
 
   if (isError) {
     return (
       <ErrorPanel>
         There was a problem retrieving the user profile ({error}).
-          If the problem persists, please contact the support.<br /><br />
+        If the problem persists, please contact the support.<br/><br/>
         <Button variant={'primary'} onClick={refetch}>
-          <FontAwesomeIcon icon={faRedoAlt} /> &nbsp; Retry
+          <FontAwesomeIcon icon={faRedoAlt}/> &nbsp; Retry
         </Button>
       </ErrorPanel>
     );
@@ -75,7 +75,7 @@ const UserProfile = observer(({ children }: UserProfileProps) => {
 
   if (isUninitialized || isFetching) {
     return (
-      <SpinnerPanel text="Retrieving user profile..." />
+      <SpinnerPanel text="Retrieving user profile..."/>
     );
   }
 
@@ -87,7 +87,7 @@ const UserProfile = observer(({ children }: UserProfileProps) => {
           <h1>Welcome</h1>
           <p>You are currently not granted permission to acccess the application.</p>
           <p>Please contact our team by email at : <a
-              href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
+            href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
           <Button onClick={logout}>Logout</Button>
         </ErrorPanel>
       );

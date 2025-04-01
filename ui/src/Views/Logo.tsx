@@ -21,10 +21,10 @@
  *
  */
 
-import { observer } from 'mobx-react-lite';
+import {observer} from 'mobx-react-lite';
 import React from 'react';
-import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
+import {createUseStyles} from 'react-jss';
+import {useNavigate} from 'react-router-dom';
 
 import useStores from '../Hooks/useStores';
 
@@ -49,16 +49,16 @@ const useStyles = createUseStyles({
 const Logo = observer(() => {
   const classes = useStyles();
 
-  const { appStore } = useStores();
+  const {appStore} = useStores();
   const navigate = useNavigate();
 
   const handleGoToHome = () => navigate('/');
 
-  const logo = `/api/theme/logo?darkMode=true`;
+  const logo = '/api/theme/logo?darkMode=true';
 
   return (
     <div className={`${classes.container} layout-logo`} onClick={handleGoToHome}>
-      <img src={logo} alt="" height="30" />
+      <img src={logo} alt="" height="30"/>
       <span>{appStore.appName}</span>
     </div>
   );

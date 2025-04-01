@@ -22,14 +22,14 @@
  */
 
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import useStores from '../../Hooks/useStores';
 import Sentry from '../../Services/Sentry';
 
 const ContactTheSupport = () => {
-  const { appStore, userProfileStore } = useStores();
+  const {appStore, userProfileStore} = useStores();
 
   const handleErrorReport = () => {
     Sentry.showReportDialog({
@@ -40,13 +40,13 @@ const ContactTheSupport = () => {
     });
   };
 
-  return(
+  return (
     <div>
       <h1>Contact us</h1>
       <p>Should you encounter any problem with this application, please contact our team by email at : <a
-          href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
-        <Button variant={'warning'} onClick={handleErrorReport}>
-            <FontAwesomeIcon icon={faEnvelope} /> &nbsp; Send an error report
+        href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
+      <Button variant={'warning'} onClick={handleErrorReport}>
+        <FontAwesomeIcon icon={faEnvelope}/> &nbsp; Send an error report
       </Button>
     </div>
   );

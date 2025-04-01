@@ -21,15 +21,15 @@
  *
  */
 
+import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {observer} from "mobx-react-lite";
-import useStores from "../Hooks/useStores";
+import useStores from '../Hooks/useStores';
 
 const Copyright = observer(() => {
-    const { appStore } = useStores();
-    return (
-        <div className="copyright">Copyright &copy; {new Date().getFullYear()} {appStore.copyright}</div>
-    )
+  const {appStore} = useStores();
+  return (
+    <div className="copyright">Copyright &copy; {new Date().getFullYear()} {appStore.copyright}</div>
+  );
 });
 
 export default Copyright;

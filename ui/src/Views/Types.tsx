@@ -23,27 +23,27 @@
 
 import {faRedoAlt} from '@fortawesome/free-solid-svg-icons/faRedoAlt';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import {observer} from 'mobx-react-lite';
+import React, {useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 
 import ErrorPanel from '../Components/ErrorPanel';
 import SpinnerPanel from '../Components/SpinnerPanel';
 import useListTypesQuery from '../Hooks/useListTypesQuery';
 import useStores from '../Hooks/useStores';
-import type { Space as SpaceType } from '../types';
-import type { ReactNode } from 'react';
+import type {Space as SpaceType} from '../types';
+import type {ReactNode} from 'react';
 
 
 interface TypesProps {
   children?: ReactNode;
 }
 
-const Types = observer(({ children }: TypesProps) => {
+const Types = observer(({children}: TypesProps) => {
 
-  const { appStore, typeStore } = useStores();
+  const {appStore, typeStore} = useStores();
 
-  const space = (appStore.currentSpace as SpaceType|null)?.id??'';
+  const space = (appStore.currentSpace as SpaceType | null)?.id ?? '';
 
   const isReady = !!space && typeStore.space === space;
 
@@ -63,11 +63,11 @@ const Types = observer(({ children }: TypesProps) => {
     if (isFetching) {
       typeStore.clear();
     } else if (isSuccess) {
-      if(types) {
+      if (types) {
         typeStore.setTypes(space, types);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [space, isFetching, isSuccess, types]);
 
   const canManageSpace = !!appStore.currentSpace?.permissions.canManageSpace;
@@ -76,32 +76,33 @@ const Types = observer(({ children }: TypesProps) => {
     if (types && types.length === 0 && !canManageSpace) {
       return (
         <ErrorPanel>
-          <p>space &quot;{space}&quot; does not currently have any types in its specifications.<br />Your are not entitled to add types to space &quot;{space}&quot;.</p>
+          <p>space &quot;{space}&quot; does not currently have any types in its specifications.<br/>Your are
+            not entitled to add types to space &quot;{space}&quot;.</p>
           <p>Please contact our team by email at : <a
-              href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
+            href={`mailto:${appStore.contactEmail}`}>{appStore.contactEmail}</a></p>
         </ErrorPanel>
       );
     }
     return (
-        <>
-          {children}
-        </>
+      <>
+        {children}
+      </>
     );
   }
 
   if (isError) {
     return (
       <ErrorPanel>
-        {error}<br /><br />
+        {error}<br/><br/>
         <Button variant={'primary'} onClick={refetch}>
-          <FontAwesomeIcon icon={faRedoAlt} /> &nbsp; Retry
+          <FontAwesomeIcon icon={faRedoAlt}/> &nbsp; Retry
         </Button>
       </ErrorPanel>
     );
   }
 
   if (space && (isUninitialized || isFetching)) {
-    return <SpinnerPanel text={`Retrieving types for space "${space}"...`} />;
+    return <SpinnerPanel text={`Retrieving types for space "${space}"...`}/>;
   }
 
   return null;

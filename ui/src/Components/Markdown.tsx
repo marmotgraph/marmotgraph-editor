@@ -23,7 +23,7 @@
 
 import React from 'react';
 import showdown from 'showdown';
-// @ts-ignore
+// @ts-expect-error ✅there is no typing available for showdown-xss-filter.
 import xssFilter from 'showdown-xss-filter';
 
 const converter = new showdown.Converter({extensions: [xssFilter]});
