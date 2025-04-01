@@ -26,5 +26,8 @@ export default defineConfig({
             include: ['src/**/*'],
             exclude: [],
         }
+    },
+    build: {
+        outDir: 'build'
     }
 })
