@@ -25,7 +25,7 @@ import {observer} from 'mobx-react-lite';
 import React from 'react';
 
 const Copyright = observer(() => {
-  const logo = '/api/theme/logo?darkMode=true';
+  const logo = '/assets/marmotgraph_dark.svg';
   return (
     <div>
       <span>PoweredBy </span>
