@@ -31,7 +31,6 @@ import Matomo from '../Services/Matomo';
 
 import InstancesHistory from './Home/InstancesHistory';
 import KeyboardShortcuts from './Home/KeyboardShortcuts';
-import ThemeSwitcher from './Home/ThemeSwitcher';
 import TipsOfTheDay from './Home/TipsOfTheDay';
 
 const rootPath = window.rootPath || '';
@@ -82,15 +81,15 @@ const useStyles = createUseStyles({
   welcome: {
     gridArea: 'welcome',
     position: 'relative',
-    height: '125px',
+    height: '100px',
     '@media screen and (min-height:1200px)': {
-      height: '220px'
+      height: '150px'
     },
     '& h1': {
       position: 'absolute',
       bottom: '10px',
       margin: '0',
-      fontSize: '4.5em'
+      fontSize: '4em'
     }
   },
   nav: {
@@ -263,9 +262,6 @@ const Home = () => {
         <div className={classes.panel}>
           <div className={classes.welcome}>
             <h1>Welcome <span><DisplayName /></span></h1>
-          </div>
-          <div className={classes.nav}>
-            <ThemeSwitcher/>
           </div>
           <div className={classes.main}>
             <InstancesHistory />

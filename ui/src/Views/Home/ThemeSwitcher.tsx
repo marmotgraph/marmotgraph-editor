@@ -28,19 +28,22 @@ import {observer} from 'mobx-react-lite';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 
-import MultiToggle from '../../Components/MultiToggle';
 import useStores from '../../Hooks/useStores';
-
 
 const useStyles = createUseStyles({
   container:{
-    textAlign: 'right',
-    paddingTop: '35px'
+    width: '50px',
+    height: '50px',
+    lineHeight: '41px',
+    color: 'var(--ft-color-normal)',
+    background: 'var(--bg-color-ui-contrast2)',
+    border: '1px solid var(--border-color-ui-contrast2)',
+    borderLeft: 'none',
+    textAlign: 'center'
   },
   icon:{
     color:'var(--ft-color-normal)',
-    fontSize:'3em',
-    marginBottom:'3px'//"10px"
+    fontSize:'1.5em'
   }
 });
 
@@ -50,20 +53,18 @@ const ThemeSwitcher = observer(() => {
 
   const { appStore } = useStores();
 
-  const handleChange = (theme: string | boolean) => appStore.setTheme(theme as string);
+  const handleClick = () => {
+    // Toggle theme between "default" and "bright"
+    const newTheme = appStore.currentTheme.name === 'bright' ? 'default' : 'bright';
+    appStore.setTheme(newTheme);
+  };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.icon}>
-        <FontAwesomeIcon icon={appStore.currentTheme.name === 'bright'? faSun: faMoon}/>
+      <div className={classes.container} onClick={handleClick} style={{ cursor: 'pointer' }}>
+        <div className={classes.icon}>
+          <FontAwesomeIcon icon={appStore.currentTheme.name === 'bright' ? faSun : faMoon} />
+        </div>
       </div>
-      <div>
-        <MultiToggle selectedValue={appStore.currentTheme.name} onChange={handleChange}>
-          <MultiToggle.Toggle color={'var(--ft-color-loud)'} icon={faMoon} value="default"/>
-          <MultiToggle.Toggle color={'var(--ft-color-loud)'} icon={faSun} value="bright"/>
-        </MultiToggle>
-      </div>
-    </div>
   );
 });
 ThemeSwitcher.displayName = 'ThemeSwitcher';
