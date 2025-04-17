@@ -24,7 +24,7 @@
 import React from 'react';
 import { createUseStyles, useTheme } from 'react-jss';
 
-import useStores from '../Hooks/useStores';
+
 import Commit from './Commit';
 import Copyright from './Copyright';
 import Logo from './Logo';
