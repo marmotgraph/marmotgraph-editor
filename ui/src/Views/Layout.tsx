@@ -101,9 +101,6 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
       <>
-        <head>
-          <title>{appStore.appName}</title>
-        </head>
         <div className={classes.container}>
           <header className={classes.header}>
             <Logo />
