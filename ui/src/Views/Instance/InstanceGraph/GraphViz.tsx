@@ -25,7 +25,7 @@ import Color from 'color';
 import debounce from 'lodash/debounce';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState, useRef } from 'react';
-import { ForceGraph2D } from 'react-force-graph';
+import ForceGraph2D from 'react-force-graph-2d';
 import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useStores from '../../../Hooks/useStores';

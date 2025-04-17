@@ -100,23 +100,20 @@ const Layout = ({ children }: LayoutProps) => {
   const classes = useStyles({ theme });
 
   return (
-    <>
-      <head>
-        <title>{appStore.appName}</title>
-      </head>
-      <div className={classes.container}>
-        <header className={classes.header}>
-          <Logo />
-          <Nav />
-        </header>
-        <main className={classes.main}>{children}</main>
-        <footer className={classes.footer}>
-          <PoweredBy />
-          <Copyright />
-          <Commit />
-        </footer>
-      </div>
-    </>
+      <>
+        <div className={classes.container}>
+          <header className={classes.header}>
+            <Logo />
+            <Nav />
+          </header>
+          <main className={classes.main}>{children}</main>
+          <footer className={classes.footer}>
+            <PoweredBy />
+            <Copyright />
+            <Commit />
+          </footer>
+        </div>
+      </>
   );
 };
 

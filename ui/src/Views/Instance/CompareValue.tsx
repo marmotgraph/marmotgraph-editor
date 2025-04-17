@@ -26,8 +26,8 @@ import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import type { Change } from 'diff';
+import { diffWordsWithSpace } from 'diff';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const jsdiff = require('diff');
 
 const useStyles = createUseStyles({
   container:{
@@ -79,7 +79,7 @@ const CompareValue = ({ label, leftValue, rightValue, separator }: CompareValueP
 
   const classes = useStyles();
 
-  const diff: Change[] = jsdiff.diffWordsWithSpace(leftValue, rightValue);
+  const diff: Change[] = diffWordsWithSpace(leftValue, rightValue);
 
   const getClassname = (part: Change): string => {
     if(part.added) {
