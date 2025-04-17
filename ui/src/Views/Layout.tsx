@@ -24,6 +24,7 @@
 import React from 'react';
 import { createUseStyles, useTheme } from 'react-jss';
 
+import useStores from '../Hooks/useStores';
 import Commit from './Commit';
 import Copyright from './Copyright';
 import Logo from './Logo';
@@ -32,7 +33,6 @@ import PoweredBy from './PoweredBy';
 import type { Theme } from '../Themes/Theme';
 import type { ReactNode } from 'react';
 import type { DefaultTheme} from 'react-jss';
-import useStores from "../Hooks/useStores";
 
 const getBackgroundSize = (theme: Jss.Theme) => {
   const appTheme = theme as Theme;
@@ -100,23 +100,23 @@ const Layout = ({ children }: LayoutProps) => {
   const classes = useStyles({ theme });
 
   return (
-      <>
-        <head>
-          <title>{appStore.appName}</title>
-        </head>
-        <div className={classes.container}>
-          <header className={classes.header}>
-            <Logo />
-            <Nav />
-          </header>
-          <main className={classes.main}>{children}</main>
-          <footer className={classes.footer}>
-            <PoweredBy />
-            <Copyright />
-            <Commit />
-          </footer>
-        </div>
-      </>
+    <>
+      <head>
+        <title>{appStore.appName}</title>
+      </head>
+      <div className={classes.container}>
+        <header className={classes.header}>
+          <Logo />
+          <Nav />
+        </header>
+        <main className={classes.main}>{children}</main>
+        <footer className={classes.footer}>
+          <PoweredBy />
+          <Copyright />
+          <Commit />
+        </footer>
+      </div>
+    </>
   );
 };
 

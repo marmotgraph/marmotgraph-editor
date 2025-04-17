@@ -25,13 +25,13 @@ import {observer} from 'mobx-react-lite';
 import React from 'react';
 
 const Copyright = observer(() => {
-    const logo = '/api/theme/logo?darkMode=true';
-    return (
-        <div>
-            <span>PoweredBy </span>
-            <img src={logo} alt="" height="30"/>
-        </div>
-    );
+  const logo = '/api/theme/logo?darkMode=true';
+  return (
+    <div>
+      <span>PoweredBy </span>
+      <img src={logo} alt="" height="30"/>
+    </div>
+  );
 });
 
 export default Copyright;

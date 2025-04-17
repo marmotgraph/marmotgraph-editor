@@ -60,11 +60,11 @@ const ThemeSwitcher = observer(() => {
   };
 
   return (
-      <div className={classes.container} onClick={handleClick} style={{ cursor: 'pointer' }}>
-        <div className={classes.icon}>
-          <FontAwesomeIcon icon={appStore.currentTheme.name === 'bright' ? faSun : faMoon} />
-        </div>
+    <div className={classes.container} onClick={handleClick} style={{ cursor: 'pointer' }}>
+      <div className={classes.icon}>
+        <FontAwesomeIcon icon={appStore.currentTheme.name === 'bright' ? faSun : faMoon} />
       </div>
+    </div>
   );
 });
 ThemeSwitcher.displayName = 'ThemeSwitcher';

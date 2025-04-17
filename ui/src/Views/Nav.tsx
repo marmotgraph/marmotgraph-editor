@@ -33,9 +33,9 @@ import SpaceSelector from '../Components/SpaceSelector/SpaceSelector';
 import Tab from '../Components/Tab';
 import useStores from '../Hooks/useStores';
 
+import ThemeSwitcher from './Home/ThemeSwitcher';
 import InstanceTabs from './InstanceTabs';
 import NewInstanceTab from './NewInstanceTab';
-import ThemeSwitcher from './Home/ThemeSwitcher';
 import UserProfileTab from './UserProfileTab';
 
 
