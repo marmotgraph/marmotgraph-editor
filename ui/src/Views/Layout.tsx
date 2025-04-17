@@ -96,24 +96,23 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const theme = useTheme<DefaultTheme>();
-  const {appStore} = useStores();
   const classes = useStyles({ theme });
 
   return (
-      <>
-        <div className={classes.container}>
-          <header className={classes.header}>
-            <Logo />
-            <Nav />
-          </header>
-          <main className={classes.main}>{children}</main>
-          <footer className={classes.footer}>
-            <PoweredBy />
-            <Copyright />
-            <Commit />
-          </footer>
-        </div>
-      </>
+    <>
+      <div className={classes.container}>
+        <header className={classes.header}>
+          <Logo />
+          <Nav />
+        </header>
+        <main className={classes.main}>{children}</main>
+        <footer className={classes.footer}>
+          <PoweredBy />
+          <Copyright />
+          <Commit />
+        </footer>
+      </div>
+    </>
   );
 };
 

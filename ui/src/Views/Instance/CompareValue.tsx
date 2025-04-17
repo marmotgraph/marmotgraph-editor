@@ -22,11 +22,11 @@
  */
 
 import Color from 'color';
+import { diffWordsWithSpace } from 'diff';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import type { Change } from 'diff';
-import { diffWordsWithSpace } from 'diff';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 const useStyles = createUseStyles({
