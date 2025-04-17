@@ -25,11 +25,12 @@ import type { Theme } from './Theme';
 
 const theme: Theme = {
   name: 'default',
+  backgroundColor: '#212529',
   background: {
     gradient: {
-      colorStart: '#1C2022',
-      colorEnd: '#4895a4',
-      angle: '165deg'
+      // colorStart: '#1C2022',
+      // colorEnd: '#4895a4',
+      // angle: '165deg'
     },
     image: '/api/theme/background?darkMode=true',
     size: 'cover'

@@ -35,7 +35,9 @@ import useStores from '../Hooks/useStores';
 
 import InstanceTabs from './InstanceTabs';
 import NewInstanceTab from './NewInstanceTab';
+import ThemeSwitcher from './Home/ThemeSwitcher';
 import UserProfileTab from './UserProfileTab';
+
 
 const useStyles = createUseStyles({
   container: {
@@ -92,9 +94,9 @@ const Nav = observer(() => {
       <div className={classes.fixedTabsLeft}>
         {userProfileStore.isAuthorized && userProfileStore.hasSpaces && !!appStore.currentSpace && (
           <>
-            <SpaceSelector />
             <Tab icon={faHome} active={!!matchPath({ path: '/' }, location.pathname)} path={'/'} label={'Home'} hideLabel />
-            <Tab icon={faSearch} active={!!matchPath({ path: '/browse' }, location.pathname)} path={'/browse'} hideLabel label={'Browse'} />
+            <SpaceSelector />
+            <Tab icon={faSearch} active={!!matchPath({ path: '/browse' }, location.pathname)} path={'/browse'} label={'Browse'} />
             <NewInstanceTab />
           </>
         )}
@@ -104,6 +106,7 @@ const Nav = observer(() => {
         {userProfileStore.isAuthorized && (
           <>
             <Tab icon={faQuestionCircle} active={!!matchPath({ path: '/help' }, location.pathname)} path={'/help'} hideLabel label={'Help'} />
+            <ThemeSwitcher />
             <UserProfileTab className={classes.userProfileTab} size={32} />
           </>
         )}

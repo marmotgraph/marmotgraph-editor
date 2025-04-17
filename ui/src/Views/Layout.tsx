@@ -28,9 +28,11 @@ import Commit from './Commit';
 import Copyright from './Copyright';
 import Logo from './Logo';
 import Nav from './Nav';
+import PoweredBy from './PoweredBy';
 import type { Theme } from '../Themes/Theme';
 import type { ReactNode } from 'react';
 import type { DefaultTheme} from 'react-jss';
+import useStores from "../Hooks/useStores";
 
 const getBackgroundSize = (theme: Jss.Theme) => {
   const appTheme = theme as Theme;
@@ -51,7 +53,7 @@ const useStyles = createUseStyles((theme: Jss.Theme) => {
       display: 'grid',
       overflow: 'hidden',
       gridTemplateColumns: '1fr',
-      gridTemplateRows: 'auto 1fr 20px'
+      gridTemplateRows: 'auto 1fr 50px'
     },
     header: {
       position: 'relative',
@@ -66,12 +68,12 @@ const useStyles = createUseStyles((theme: Jss.Theme) => {
       background:
         'linear-gradient(var(--bg-gradient-angle), var(--bg-gradient-start), var(--bg-gradient-end))',
       backgroundSize: getBackgroundSize(theme),
-      backgroundImage: appTheme.background.image
-        ? `url('${appTheme.background.image}')`
-        : 'unset',
-      backgroundPosition: appTheme.background.position
-        ? appTheme.background.position
-        : 'unset',
+      // backgroundImage: appTheme.background.image
+      //   ? `url('${appTheme.background.image}')`
+      //   : 'unset',
+      // backgroundPosition: appTheme.background.position
+      //   ? appTheme.background.position
+      //   : 'unset',
       backgroundColor: appTheme.backgroundColor
         ? appTheme.backgroundColor
         : 'unset'
@@ -79,11 +81,11 @@ const useStyles = createUseStyles((theme: Jss.Theme) => {
     footer: {
       position: 'relative',
       display: 'grid',
-      gridTemplateRows: '1fr',
-      gridTemplateColumns: '1fr auto',
+      gridTemplateRows: '2fr',
+      gridTemplateColumns: '1fr 1fr auto',
       background: 'var(--bg-color-ui-contrast1)',
       color: 'var(--ft-color-loud)',
-      padding: '0 10px'
+      padding: '10px'
     }
   };
 });
@@ -94,20 +96,27 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const theme = useTheme<DefaultTheme>();
+  const {appStore} = useStores();
   const classes = useStyles({ theme });
 
   return (
-    <div className={classes.container}>
-      <header className={classes.header}>
-        <Logo />
-        <Nav />
-      </header>
-      <main className={classes.main}>{children}</main>
-      <footer className={classes.footer}>
-        <Copyright />
-        <Commit />
-      </footer>
-    </div>
+      <>
+        <head>
+          <title>{appStore.appName}</title>
+        </head>
+        <div className={classes.container}>
+          <header className={classes.header}>
+            <Logo />
+            <Nav />
+          </header>
+          <main className={classes.main}>{children}</main>
+          <footer className={classes.footer}>
+            <PoweredBy />
+            <Copyright />
+            <Commit />
+          </footer>
+        </div>
+      </>
   );
 };
 

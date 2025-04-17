@@ -23,49 +23,15 @@
 
 import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {createUseStyles} from 'react-jss';
-import {useNavigate} from 'react-router-dom';
 
-import useStores from '../Hooks/useStores';
-
-const useStyles = createUseStyles({
-  container: {
-    padding: '10px',
-    cursor: 'pointer',
-    '& span': {
-      color: 'var(--ft-color-loud)',
-      display: 'inline-block',
-      paddingLeft: '10px',
-      fontSize: '0.9em',
-      borderLeft: '1px solid var(--border-color-ui-contrast5)',
-      marginLeft: '10px'
-    },
-    '&:hover span': {
-      color: 'var(--ft-color-louder)'
-    }
-  }
+const Copyright = observer(() => {
+    const logo = '/api/theme/logo?darkMode=true';
+    return (
+        <div>
+            <span>PoweredBy </span>
+            <img src={logo} alt="" height="30"/>
+        </div>
+    );
 });
 
-const Logo = observer(() => {
-  const classes = useStyles();
-
-  const {appStore} = useStores();
-  const navigate = useNavigate();
-
-  console.log(appStore.appName);
-
-  const handleGoToHome = () => navigate('/');
-
-  const logo = '/api/theme/logo?darkMode=true';
-
-  return (
-    <div className={`${classes.container} layout-logo`} onClick={handleGoToHome}>
-      <img src={logo} alt="" height="30"/>
-      <span>{appStore.appName}</span>
-    </div>
-  );
-});
-Logo.displayName = 'Logo';
-
-export default Logo;
-
+export default Copyright;
