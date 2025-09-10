@@ -33,9 +33,9 @@ import java.util.Map;
 @Component
 public class ReleaseClient {
 
-    private final ServiceCall kg;
+    private final EditorServiceCall kg;
 
-    public ReleaseClient(ServiceCall kg) {
+    public ReleaseClient(EditorServiceCall kg) {
         this.kg = kg;
     }
 

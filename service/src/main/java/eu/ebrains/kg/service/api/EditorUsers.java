@@ -28,7 +28,7 @@ import eu.ebrains.kg.service.models.commons.UserSummary;
 import eu.ebrains.kg.service.models.user.Space;
 import eu.ebrains.kg.service.models.user.UserProfile;
 import eu.ebrains.kg.service.services.SpaceClient;
-import eu.ebrains.kg.service.services.UserClient;
+import eu.ebrains.kg.service.services.EditorUserClient;
 import org.marmotgraph.commons.controller.IdController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,15 +40,15 @@ import java.util.UUID;
 
 @RequestMapping("${org.marmotgraph.api.root:}/users")
 @RestController
-public class Users {
+public class EditorUsers {
 
     private final IdController idController;
-    private final UserClient userClient;
+    private final EditorUserClient editorUserClient;
     private final SpaceClient spaceClient;
 
-    public Users(IdController idController, UserClient userClient, SpaceClient spaceClient) {
+    public EditorUsers(IdController idController, EditorUserClient editorUserClient, SpaceClient spaceClient) {
         this.idController = idController;
-        this.userClient = userClient;
+        this.editorUserClient = editorUserClient;
         this.spaceClient = spaceClient;
     }
 
@@ -58,7 +58,7 @@ public class Users {
 
     @GetMapping("/me")
     public KGCoreResult<UserProfile> getUserProfile() {
-        UserProfile userProfile = userClient.getUserProfile();
+        UserProfile userProfile = editorUserClient.getUserProfile();
         if(userProfile!=null) {
             UUID uuid = idController.simplifyFullyQualifiedId(userProfile.getId());
             if(uuid!=null) {
@@ -66,7 +66,7 @@ public class Users {
             }
             List<Space> spaces = spaceClient.getSpaces();
             if (spaces != null) {
-                List<Space> filteredSpaces = spaces.stream().filter(Users::isUserRelevantSpace).toList();
+                List<Space> filteredSpaces = spaces.stream().filter(EditorUsers::isUserRelevantSpace).toList();
                 userProfile.setSpaces(filteredSpaces);
             }
             return new KGCoreResult<UserProfile>().setData(userProfile);
@@ -76,7 +76,7 @@ public class Users {
 
     @GetMapping("/search")
     public KGCoreResult<List<UserSummary>> getUsers(@RequestParam(value = "search", required = false) String search) {
-        return new KGCoreResult<List<UserSummary>>().setData(userClient.getUsers(search));
+        return new KGCoreResult<List<UserSummary>>().setData(editorUserClient.getUsers(search));
     }
 
 }

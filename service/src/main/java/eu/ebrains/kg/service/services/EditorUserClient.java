@@ -28,24 +28,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.commons.UserSummary;
 import eu.ebrains.kg.service.models.user.UserProfile;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
-public class UserClient {
+public class EditorUserClient {
 
-    private final ServiceCall kg;
+    private final EditorServiceCall kg;
     private final String searchEndpoint;
     private final String detailEndpoint;
 
-    public UserClient(ServiceCall kg, @Value("${kg.users.searchEndpoint}") String searchEndpoint, @Value("${kg.users.detailEndpoint}") String detailEndpoint) {
+    public EditorUserClient(EditorServiceCall kg, @Value("${kg.users.searchEndpoint}") String searchEndpoint, @Value("${kg.users.detailEndpoint}") String detailEndpoint) {
         this.kg = kg;
         this.searchEndpoint = searchEndpoint;
         this.detailEndpoint = detailEndpoint;

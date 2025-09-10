@@ -29,8 +29,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
 @EnableAutoConfiguration
@@ -38,22 +36,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableCaching
 @EnableScheduling
 @ComponentScan({"org.marmotgraph", "eu.ebrains.kg"})
-public class EditorApplication extends WebSecurityConfigurerAdapter {
+public class EditorApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EditorApplication.class, args);
-    }
-
-    @Override
-    @SuppressWarnings("java:S4502") //We suppress the csrf disable warning because we have a stateless, token-base API (also see https://www.baeldung.com/spring-security-csrf#stateless-spring-api ).
-    protected void configure(HttpSecurity http) throws Exception {
-        /**
-         *  The http security is quite simple here because we're just fast-forwarding the token
-         *  ( {@link eu.ebrains.kg.service.configuration.OauthClient ) to KG core and
-         *  let this one manage the access permissions....
-         */
-        http.csrf().disable();
-        http.authorizeRequests(a -> a.anyRequest().permitAll());
     }
 
 }

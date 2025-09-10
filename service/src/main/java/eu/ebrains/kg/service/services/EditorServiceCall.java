@@ -26,18 +26,17 @@ package eu.ebrains.kg.service.services;
 
 import org.marmotgraph.commons.CommonConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-public class ServiceCall {
+public class EditorServiceCall {
 
     private final WebClient dualAuthWebClient;
     private final WebClient singleAuthWebClient;
     private final CommonConfig commonConfig;
 
-    public ServiceCall(@Qualifier("dualAuth") WebClient dualAuthWebClient, @Qualifier("singleAuth") WebClient singleAuthWebClient, CommonConfig commonConfig) {
+    public EditorServiceCall(@Qualifier("dualAuth") WebClient dualAuthWebClient, @Qualifier("singleAuth") WebClient singleAuthWebClient, CommonConfig commonConfig) {
         this.dualAuthWebClient = dualAuthWebClient;
         this.singleAuthWebClient = singleAuthWebClient;
         this.commonConfig = commonConfig;

@@ -27,6 +27,7 @@ import com.nimbusds.oauth2.sdk.util.CollectionUtils;
 import eu.ebrains.kg.service.models.KGCoreResult;
 import eu.ebrains.kg.service.models.user.Space;
 import eu.ebrains.kg.service.models.type.StructureOfType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 
@@ -37,10 +38,12 @@ import java.util.Map;
 @Component
 public class SpaceClient {
 
-    private final ServiceCall kg;
+    private final EditorServiceCall kg;
+    private final boolean typeReflection;
 
-    public SpaceClient(ServiceCall kg) {
+    public SpaceClient(EditorServiceCall kg, @Value("${kg.structure.typeReflection}") boolean typeReflection) {
         this.kg = kg;
+        this.typeReflection = typeReflection;
     }
 
     private static class SpaceResultFromKG extends KGCoreResult<Space> {}
@@ -92,7 +95,7 @@ public class SpaceClient {
     }
 
     private List<StructureOfType> getSpaceTypes(String space, boolean withProperties, boolean withIncomingLinks) {
-        String relativeUrl = String.format("types?stage=IN_PROGRESS&space=%s&withProperties=%s&withIncomingLinks=%s", space, withProperties, withIncomingLinks);
+        String relativeUrl = String.format("types?stage=IN_PROGRESS&space=%s&withProperties=%s&withIncomingLinks=%s&reflect=%s", space, withProperties, withIncomingLinks, typeReflection);
         StructureTypeResultFromKG response = kg.client(true).get().uri(kg.url(relativeUrl))
                 .retrieve()
                 .bodyToMono(StructureTypeResultFromKG.class)
@@ -105,7 +108,7 @@ public class SpaceClient {
     }
 
     public List<StructureOfType> getSpaceAvailableTypes(String space) {
-        String relativeUrl = "types?stage=IN_PROGRESS&withProperties=false&withIncomingLinks=false";
+        String relativeUrl = String.format("types?stage=IN_PROGRESS&withProperties=false&withIncomingLinks=false&reflect=%s", typeReflection);
         StructureTypeResultFromKG response = kg.client(true).get().uri(kg.url(relativeUrl))
                 .retrieve()
                 .bodyToMono(StructureTypeResultFromKG.class)
@@ -139,7 +142,7 @@ public class SpaceClient {
     }
 
     public Map<String, KGCoreResult<StructureOfType>> getTypesByName(List<String> types, boolean withProperties) {
-        String relativeUrl = String.format("typesByName?stage=IN_PROGRESS&withProperties=%s", withProperties);
+        String relativeUrl = String.format("typesByName?stage=IN_PROGRESS&withProperties=%s&reflect=%s", withProperties, typeReflection);
         StructureOfTypeByNameFromKG response = kg.client(true).post().uri(kg.url(relativeUrl))
                 .body(BodyInserters.fromValue(types))
                 .retrieve()
@@ -149,7 +152,7 @@ public class SpaceClient {
     }
 
     public Map<String, KGCoreResult<StructureOfType>> getTypesByName(List<String> types, boolean withProperties, boolean withIncomingLinks, String space) {
-        String relativeUrl = String.format("typesByName?stage=IN_PROGRESS&withProperties=%s&withIncomingLinks=%s&space=%s", withProperties, withIncomingLinks, space);
+        String relativeUrl = String.format("typesByName?stage=IN_PROGRESS&withProperties=%s&withIncomingLinks=%s&space=%s&reflect=%s", withProperties, withIncomingLinks, space, typeReflection);
         StructureOfTypeByNameFromKG response = kg.client(true).post().uri(kg.url(relativeUrl))
                 .body(BodyInserters.fromValue(types))
                 .retrieve()

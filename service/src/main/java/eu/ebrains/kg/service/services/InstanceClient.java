@@ -46,10 +46,10 @@ public class InstanceClient {
 
     private final IdController idController;
     private final ObjectMapper objectMapper;
-    private final ServiceCall kg;
-    private final UserClient users;
+    private final EditorServiceCall kg;
+    private final EditorUserClient users;
 
-    public InstanceClient(IdController idController, ServiceCall kg, ObjectMapper jacksonObjectMapper, UserClient users) {
+    public InstanceClient(IdController idController, EditorServiceCall kg, ObjectMapper jacksonObjectMapper, EditorUserClient users) {
         this.idController = idController;
         this.kg = kg;
         this.objectMapper = jacksonObjectMapper;
