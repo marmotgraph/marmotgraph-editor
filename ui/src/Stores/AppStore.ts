@@ -92,6 +92,7 @@ export class AppStore{
 
   constructor(rootStore: RootStore) {
     makeObservable(this, {
+      copyright: observable,
       commit: observable,
       externalCreateModal: observable,
       globalError: observable,
