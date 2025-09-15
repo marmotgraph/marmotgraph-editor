@@ -82,7 +82,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "test": "vitest",
-    "testCI": "vitest run --coverage --passWithNoTests",
+    "testCI": "vitest run --coverage",
     "lint": "eslint src/",
     "fix_lint": "eslint --fix src/"
   },
