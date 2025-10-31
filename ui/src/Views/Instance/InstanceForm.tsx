@@ -246,6 +246,8 @@ const InstanceForm = observer(({ id, view, pane, provenance }: InstanceFormProps
           <HeaderPanel
             className={classes.panelHeader}
             types={instance.types}
+            labelProperty={instance.name}
+            space={instance.space}
             hasChanged={instance.hasChanged}
             highlight={highlight} />
 
