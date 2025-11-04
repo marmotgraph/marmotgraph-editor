@@ -50,6 +50,22 @@ const useStyles = createUseStyles({
   },
   type: {
     paddingRight: '10px'
+  },
+  titlePanelHeader: {
+    marginBottom: '20px'
+  },
+  titlePanelColor: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '15px'
+  },
+  titlePanelType: {
+    '& span': {
+      marginRight: '5px'
+    }
+  },
+  titlePanelLabel: {
+    fontSize: '1.3em'
   }
 });
 
@@ -78,11 +94,13 @@ const getScrollTop = (elem: HTMLElement | null) => {
 interface HeaderPanelProps {
   className?: string;
   types?: SimpleType[];
+  labelProperty?: string;
+  space?: string;
   hasChanged?: boolean;
   highlight?: boolean;
 }
 
-const HeaderPanel = observer(({ className, types, hasChanged, highlight }: HeaderPanelProps) => {
+const HeaderPanel = observer(({ className, types, labelProperty, space, hasChanged, highlight }: HeaderPanelProps) => {
 
   const classes = useStyles();
 
@@ -105,11 +123,17 @@ const HeaderPanel = observer(({ className, types, hasChanged, highlight }: Heade
     <div className={`${classes.panel} ${className ? className : ''}`}>
       <Row>
         <Col xs={12}>
-          <h6 ref={scrollIntoViewRef}>
+          <div ref={scrollIntoViewRef}>
             {types && types.map(({name, label, color}) => (
-              <span key={name} className={classes.type} title={name}><FontAwesomeIcon icon={faCircle} color={color}/>&nbsp;&nbsp;<span>{label?label:name}</span></span>
+              <div key={name} title={name} className={classes.titlePanelHeader}>
+                <div className={classes.titlePanelLabel}>{labelProperty}</div>
+                <div className={classes.titlePanelType}>
+                  <span><FontAwesomeIcon icon={faCircle} color={color} /></span>
+                  <span>{label?label:name} ({space})</span>
+                </div>
+              </div>
             ))}
-          </h6>
+          </div>
         </Col>
       </Row>
       {hasChanged && (
