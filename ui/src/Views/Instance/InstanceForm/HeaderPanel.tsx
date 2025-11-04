@@ -129,7 +129,7 @@ const HeaderPanel = observer(({ className, types, labelProperty, space, hasChang
                 <div className={classes.titlePanelLabel}>{labelProperty}</div>
                 <div className={classes.titlePanelType}>
                   <span><FontAwesomeIcon icon={faCircle} color={color} /></span>
-                  <span>{space} / {label?label:name}</span>
+                  <span>{label?label:name} ({space})</span>
                 </div>
               </div>
             ))}
