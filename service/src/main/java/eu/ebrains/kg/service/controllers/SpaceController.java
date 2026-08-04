@@ -115,7 +115,7 @@ public class SpaceController {
         });
         getTargetTypes(typesMap, relatedTypes);
         getIncomingLinksTypes(relatedTypes, typesMap);
-        relatedTypes.sort(Comparator.comparing(StructureOfType::getLabel));
+        relatedTypes.sort(Comparator.comparing(t -> t.getLabel()!=null ? t.getLabel() : t.getName()));
         enrichSpaceTypes(relatedTypes, typesMap);
         return relatedTypes;
     }
