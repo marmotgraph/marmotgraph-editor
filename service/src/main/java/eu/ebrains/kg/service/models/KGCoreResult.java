@@ -39,6 +39,8 @@ public class KGCoreResult<T> {
     private Integer total;
     private Integer size;
     private Integer from;
+    private String marker;
+    private String nextMarker;
 
     public KGCoreResult<T> setData(T data) {
         this.data = data;
@@ -94,5 +96,23 @@ public class KGCoreResult<T> {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getMarker() {
+        return marker;
+    }
+
+    public  KGCoreResult<T> setMarker(String marker) {
+        this.marker = marker;
+        return this;
+    }
+
+    public String getNextMarker() {
+        return nextMarker;
+    }
+
+    public  KGCoreResult<T> setNextMarker(String nextMarker) {
+        this.nextMarker = nextMarker;
+        return this;
     }
 }

@@ -61,7 +61,7 @@ const endpoints = {
   instancesList: (stage?: Stage) => `${RELATIVE_ROOT_PATH}/instancesBulk/list${getStage(stage)}`,
   instancesSummary: (stage?: Stage) => `${RELATIVE_ROOT_PATH}/instancesBulk/summary${getStage(stage)}`,
   instancesLabel: (stage?: Stage) => `${RELATIVE_ROOT_PATH}/instancesBulk/label${getStage(stage)}`,
-  searchInstancesByType: (space: string, type: string, from: number, size: number, search: string) => `${RELATIVE_ROOT_PATH}/summary?space=${space}&type=${encodeURIComponent(type)}&from=${from}&size=${size}&searchByLabel=${encodeURIComponent(search)}`,
+  searchInstancesByType: (space: string, type: string, marker: string|undefined, size: number, search: string, totalCount: boolean) => `${RELATIVE_ROOT_PATH}/summary?space=${space}&type=${encodeURIComponent(type)}&marker=${marker ? marker:''}&size=${size}&searchByLabel=${encodeURIComponent(search)}&totalCount=${totalCount}`,
   suggestions: (instanceId: UUID, field: string, sourceType: string|undefined, targetType: string|undefined, start:number|undefined, size:number|undefined, search: string|undefined) => {
     const params = [];
     if(sourceType) {
@@ -160,8 +160,8 @@ class APIBackendAdapter implements API {
     return data;
   }
 
-  async searchInstancesByType(space: string, type: string, from: number, size: number, search: string): Promise<KGCoreResult<InstanceSummary[]>> {
-    const  { data } = await this._axios.get(endpoints.searchInstancesByType(space, type, from, size, search));
+  async searchInstancesByType(space: string, type: string, marker: string|undefined, size: number, search: string, totalCount: boolean): Promise<KGCoreResult<InstanceSummary[]>> {
+    const  { data } = await this._axios.get(endpoints.searchInstancesByType(space, type, marker, size, search, totalCount));
     return data;
   }
 

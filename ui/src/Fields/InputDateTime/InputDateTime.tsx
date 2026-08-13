@@ -134,6 +134,14 @@ const InputDateTime = observer(({ fieldStore, className, readMode, showIfNoValue
     return (
       <Form.Group className={`${classes.readMode} ${className}`}>
         <Label className={classes.label} label={label} isReadOnly={readMode?false:isReadOnly} />
+        <Alternatives
+          className={classes.alternatives}
+          list={alternatives}
+          onSelect={handleSelectAlternative}
+          onRemove={handleRemoveMySuggestion}
+          parentContainerRef={formGroupRef}
+          ValueRenderer={AlternativeValue}
+        />
         <span>&nbsp;{val}</span>
       </Form.Group>
     );

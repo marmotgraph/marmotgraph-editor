@@ -71,7 +71,7 @@ interface API {
 
   patchInstance(instanceId: UUID, payload: object):  Promise<KGCoreResult<InstanceFull>>;
 
-  searchInstancesByType(space: string, type: string, from: number, size: number, search: string): Promise<KGCoreResult<InstanceSummary[]>>;
+  searchInstancesByType(space: string, type: string, marker:string|undefined, size: number, search: string, totalCount:boolean): Promise<KGCoreResult<InstanceSummary[]>>;
 
   getSuggestions(instanceId: UUID, field: string, sourceType: string|undefined, targetType: string|undefined, from: number|undefined, size: number|undefined, search: string|undefined, payload?: {[key: string]: any}): Promise<KGCoreResult<SuggestionStructure>>;
 

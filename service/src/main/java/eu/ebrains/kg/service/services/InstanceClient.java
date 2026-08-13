@@ -63,7 +63,7 @@ public class InstanceClient {
                                                                                    boolean returnEmbedded,
                                                                                    boolean returnIncomingLinks,
                                                                                    Class<T> clazz) {
-        String incomingLinksPageSizeParam = returnIncomingLinks?String.format("&incomingLinksPageSize=%d", INCOMING_LINKS_PAGE_SIZE):"";
+        String incomingLinksPageSizeParam = returnIncomingLinks ? String.format("&incomingLinksPageSize=%d", INCOMING_LINKS_PAGE_SIZE) : "";
         String relativeUrl = String.format("instancesByIds?stage=%s&returnAlternatives=%b&returnPermissions=%b&returnEmbedded=%b&returnIncomingLinks=%b%s", stage, returnAlternatives, returnPermissions, returnEmbedded, returnIncomingLinks, incomingLinksPageSizeParam);
         KGCoreResult.Single originalMap = kg.client(true).post().uri(kg.url(relativeUrl))
                 .body(BodyInserters.fromValue(ids))
@@ -75,13 +75,13 @@ public class InstanceClient {
             originalMap.getData().keySet().forEach(f -> {
                 Object o = originalMap.getData().get(f);
                 KGCoreResult.Single r = objectMapper.convertValue(o, KGCoreResult.Single.class);
-                if(f != null) {
+                if (f != null) {
                     if (r.getData() != null) {
                         result.put(f, buildResultWithOriginalMap(r.getData(), clazz));
                     } else if (r.getError() != null) {
                         T t = objectMapper.convertValue(new HashMap<>(), clazz);
                         t.setError(r.getError());
-                        result.put(f,  new ResultWithOriginalMap<>(null, t));
+                        result.put(f, new ResultWithOriginalMap<>(null, t));
                     }
                 }
             });
@@ -89,22 +89,23 @@ public class InstanceClient {
         return result;
     }
 
-    private static class IncomingLinksResult extends KGCoreResult<List<IncomingLink>> {}
+    private static class IncomingLinksResult extends KGCoreResult<List<IncomingLink>> {
+    }
 
     public KGCoreResult<List<IncomingLink>> getIncomingLinks(String id,
-                                                        String property,
-                                                        String type,
-                                                        Integer from,
-                                                        Integer size) {
+                                                             String property,
+                                                             String type,
+                                                             Integer from,
+                                                             Integer size) {
 
         String relativeUrl = String.format("instances/%s/incomingLinks?stage=IN_PROGRESS&property=%s&type=%s&from=%d&size=%d", id, property, type, from, size);
         IncomingLinksResult response = kg.client(true).get().uri(kg.url(relativeUrl)).retrieve().bodyToMono(IncomingLinksResult.class).block();
-        if(response!=null){
+        if (response != null) {
             response.getData().forEach(lk -> {
-                        UUID uuid = idController.simplifyFullyQualifiedId(lk.getId());
-                        if(uuid!=null){
-                            lk.setId(uuid.toString());
-                        }
+                UUID uuid = idController.simplifyFullyQualifiedId(lk.getId());
+                if (uuid != null) {
+                    lk.setId(uuid.toString());
+                }
 
             });
             return response;
@@ -113,29 +114,31 @@ public class InstanceClient {
     }
 
     public KGCoreResult<List<ResultWithOriginalMap<InstanceSummary>>> searchInstanceSummaries(String space,
-                                                                                       String type,
-                                                                                       Integer from,
-                                                                                       Integer size,
-                                                                                       String searchByLabel) {
-        String relativeUrl = String.format("instances?stage=IN_PROGRESS&sortByLabel=true&returnPermissions=true&type=%s&space=%s", type, space);
-        if(searchByLabel!=null){
+                                                                                              String type,
+                                                                                              String marker,
+                                                                                              Integer size,
+                                                                                              String searchByLabel,
+                                                                                              boolean totalCount) {
+        String relativeUrl = String.format("instances?stage=IN_PROGRESS&sortByLabel=true&returnPermissions=true&type=%s&space=%s&returnTotalResults=%s", type, space, totalCount);
+        if (searchByLabel != null) {
             relativeUrl = String.format("%s&searchByLabel=%s", relativeUrl, searchByLabel);
         }
-        if (from != null) {
-            relativeUrl = String.format("%s&from=%s", relativeUrl, from);
+        if (marker != null) {
+            relativeUrl = String.format("%s&marker=%s", relativeUrl, marker);
         }
         if (size != null) {
             relativeUrl = String.format("%s&size=%s", relativeUrl, size);
         }
         KGCoreResult.List response = kg.client(true).get().uri(kg.url(relativeUrl)).retrieve().bodyToMono(KGCoreResult.List.class).block();
-        if(response!=null){
+        if (response != null) {
             List<ResultWithOriginalMap<InstanceSummary>> resultList = response.getData().stream().map(m -> new ResultWithOriginalMap<>(m, objectMapper.convertValue(m, InstanceSummary.class))).toList();
-            return new KGCoreResult<List<ResultWithOriginalMap<InstanceSummary>>>().setData(resultList).setTotalResults(response.getTotal()).setFrom(response.getFrom()).setSize(response.getSize());
+            return new KGCoreResult<List<ResultWithOriginalMap<InstanceSummary>>>().setData(resultList).setTotalResults(response.getTotal()).setMarker(response.getMarker()).setNextMarker(response.getNextMarker()).setFrom(response.getFrom()).setSize(response.getSize());
         }
         return null;
     }
 
-    private static class ScopeFromKG extends KGCoreResult<Scope>{}
+    private static class ScopeFromKG extends KGCoreResult<Scope> {
+    }
 
     public Scope getInstanceScope(String id) {
         String relativeUrl = String.format("instances/%s/scope?stage=IN_PROGRESS&returnPermissions=true&applyRestrictions=true", id);
@@ -143,10 +146,12 @@ public class InstanceClient {
                 .retrieve()
                 .bodyToMono(ScopeFromKG.class)
                 .block();
-        return response!=null ? response.getData() : null;
+        return response != null ? response.getData() : null;
     }
 
-    private static class NeighborFromKG extends KGCoreResult<Neighbor>{}
+    private static class NeighborFromKG extends KGCoreResult<Neighbor> {
+    }
+
     public KGCoreResult<Neighbor> getNeighbors(String id) {
         String relativeUrl = String.format("instances/%s/neighbors?stage=IN_PROGRESS", id);
         return kg.client(true).get().uri(kg.url(relativeUrl))
@@ -159,15 +164,15 @@ public class InstanceClient {
     }
 
     public KGCoreResult<SuggestionStructure> postSuggestions(String id,
-                                               String field,
-                                               String sourceType,
-                                               String targetType,
-                                               Integer start,
-                                               Integer size,
-                                               String search,
-                                               Map<String, Object> payload) {
+                                                             String field,
+                                                             String sourceType,
+                                                             String targetType,
+                                                             Integer start,
+                                                             Integer size,
+                                                             String search,
+                                                             Map<String, Object> payload) {
         String relativeUrl = String.format("instances/%s/suggestedLinksForProperty?stage=IN_PROGRESS&property=%s&from=%d&size=%d", id, field, start, size);
-        if(StringUtils.isNotBlank(search)){
+        if (StringUtils.isNotBlank(search)) {
             relativeUrl = String.format("%s&search=%s", relativeUrl, search);
         }
         if (StringUtils.isNotBlank(sourceType)) {
@@ -203,10 +208,10 @@ public class InstanceClient {
             try {
                 Map<String, Object> data = (HashMap<String, Object>) result.get("data");
                 if (data.containsKey(EditorConstants.VOCAB_PERMISSIONS)) {
-                        List<String> permissionList = (List<String>) data.get(EditorConstants.VOCAB_PERMISSIONS);
-                        Permissions permissions = Permissions.fromPermissionList(permissionList);
-                        data.remove(EditorConstants.VOCAB_PERMISSIONS);
-                        result.put(permissionsKey, permissions);
+                    List<String> permissionList = (List<String>) data.get(EditorConstants.VOCAB_PERMISSIONS);
+                    Permissions permissions = Permissions.fromPermissionList(permissionList);
+                    data.remove(EditorConstants.VOCAB_PERMISSIONS);
+                    result.put(permissionsKey, permissions);
                 } else {
                     result.put(permissionsKey, Collections.emptyList());
                 }
@@ -272,14 +277,16 @@ public class InstanceClient {
         return buildResultWithOriginalMap(response, InstanceFull.class);
     }
 
-    private static class UserIds extends KGCoreResult<List<String>>{}
+    private static class UserIds extends KGCoreResult<List<String>> {
+    }
+
     public KGCoreResult<List<UserSummary>> getInvitedUsers(String id) {
         String relativeUrl = String.format("instances/%s/invitedUsers", id);
         final KGCoreResult<List<String>> userIds = kg.client(true).get().uri(kg.url(relativeUrl))
                 .retrieve()
                 .bodyToMono(UserIds.class)
                 .block();
-        if(userIds!=null && !CollectionUtils.isEmpty(userIds.getData())){
+        if (userIds != null && !CollectionUtils.isEmpty(userIds.getData())) {
             final List<UserSummary> userSummaries = userIds.getData().stream().map(users::getUserById).filter(Objects::nonNull).toList();
             return new KGCoreResult<List<UserSummary>>().setData(userSummaries);
         }

@@ -122,6 +122,8 @@ export interface KGCoreResult<T> {
     total: number;
     size: number;
     from: number;
+    marker: string;
+    nextMarker: string;
 }
 
 export interface SearchFilter {

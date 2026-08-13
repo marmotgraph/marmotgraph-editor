@@ -57,7 +57,7 @@ export class BrowseStore {
 
   navigationFilter = '';
 
-  pageStart = 0;
+  marker?:string;
   pageSize = 20;
 
   api: API;
@@ -134,10 +134,8 @@ export class BrowseStore {
     if(!this.selectedType) {
       return;
     }
-    if(loadMore){
-      this.pageStart++;
-    } else {
-      this.pageStart = 0;
+    if(!loadMore){
+      this.marker = undefined;
       this.isFetching = true;
       this.selectedInstance = undefined;
       this.instances = [];
@@ -145,7 +143,7 @@ export class BrowseStore {
     this.fetchError = undefined;
     try {
       const space = this.rootStore.appStore.currentSpace?.id as string;
-      const data  = await this.api.searchInstancesByType(space, this.selectedType.name, this.pageStart*this.pageSize, this.pageSize, this.instancesFilter);
+      const data  = await this.api.searchInstancesByType(space, this.selectedType.name, this.marker, this.pageSize, this.instancesFilter, !loadMore);
       runInAction(() => {
         this.isFetching = false;
         const instances = normalizeInstancesData(this.api, this.rootStore, data.data);
@@ -154,8 +152,11 @@ export class BrowseStore {
         } else {
           this.instances = instances;
         }
-        this.canLoadMoreInstances = this.instances.length < data.total;
-        this.totalInstances = data.total;
+        this.canLoadMoreInstances = data.nextMarker !== undefined;
+        if(data.total !== undefined) {
+          this.totalInstances = data.total;
+        }
+        this.marker = data.nextMarker;
       });
     } catch (e) {
       const err = e as APIError;

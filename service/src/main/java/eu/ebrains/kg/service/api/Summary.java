@@ -59,8 +59,8 @@ public class Summary {
     @GetMapping
     //FIXME The pagination parameters differ from the one in instances -> they should be homogenized.
     //TODO check if it would make sense to introduce a default pagination
-    public KGCoreResult<List<InstanceSummary>> searchInstancesSummary(@RequestParam("space") String space, @RequestParam("type") String type, @RequestParam(required = false, value = "from") Integer from, @RequestParam(required = false, value = "size") Integer size, @RequestParam(value = "searchByLabel", required = false) String searchByLabel) {
-        KGCoreResult<List<ResultWithOriginalMap<InstanceSummary>>> result = instanceClient.searchInstanceSummaries(space, type, from, size, searchByLabel);
+    public KGCoreResult<List<InstanceSummary>> searchInstancesSummary(@RequestParam("space") String space, @RequestParam("type") String type, @RequestParam(required = false, value = "marker") String marker, @RequestParam(required = false, value = "size") Integer size, @RequestParam(value = "searchByLabel", required = false) String searchByLabel, @RequestParam(value = "totalCount") boolean totalCount) {
+        KGCoreResult<List<ResultWithOriginalMap<InstanceSummary>>> result = instanceClient.searchInstanceSummaries(space, type, marker, size, searchByLabel, totalCount);
 
         // We're fetching the root type with properties to receive the information about the label field and the search fields.
         Map<String, KGCoreResult<StructureOfType>> typesByName = spaceClient.getTypesByName(Collections.singletonList(type), true);
@@ -110,7 +110,7 @@ public class Summary {
             idController.simplifyId(r.getResult());
             return r.getResult();
         }).toList();
-        return new KGCoreResult<List<InstanceSummary>>().setData(instanceSummary).setTotalResults(result.getTotal()).setSize(result.getSize()).setFrom(result.getFrom());
+        return new KGCoreResult<List<InstanceSummary>>().setData(instanceSummary).setTotalResults(result.getTotal()).setSize(result.getSize()).setMarker(result.getMarker()).setNextMarker(result.getNextMarker()).setFrom(result.getFrom());
     }
 
 
